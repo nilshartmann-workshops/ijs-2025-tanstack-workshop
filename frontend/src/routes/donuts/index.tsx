@@ -4,15 +4,9 @@ import { z } from "zod";
 import { fetchDonutListOpts } from "@/queries.ts";
 import DonutList from "@/components/DonutList.tsx";
 import FavList from "@/components/FavList.tsx";
-import { zodValidator } from "@tanstack/zod-adapter";
-
-const GlobalSearchParams = z.object({
-  favIds: z.string().array().optional(),
-});
 
 export const Route = createFileRoute("/donuts/")({
   component: RouteComponent,
-  validateSearch: zodValidator(GlobalSearchParams),
 });
 
 function RouteComponent() {

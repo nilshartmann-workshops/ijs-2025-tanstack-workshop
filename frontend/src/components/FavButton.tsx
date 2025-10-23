@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import { getRouteApi, useNavigate, useSearch } from "@tanstack/react-router";
+import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import { toggleId } from "@/components/utils.ts";
 
 const Route = getRouteApi("/donuts");
@@ -11,7 +11,7 @@ export default function FavButton({
   donutId: string;
   variant?: "lg" | "sm";
 }) {
-  const navigate = Route.useNavigate();
+  const navigate = useNavigate();
 
   // todo: select from search
   const { favIds = [] } = Route.useSearch();
@@ -19,6 +19,7 @@ export default function FavButton({
 
   const handleFavClick = () => {
     navigate({
+      to: ".",
       search: {
         favIds: toggleId(favIds, donutId),
       },
@@ -36,8 +37,10 @@ export default function FavButton({
   );
 
   return (
-    <button className={buttonClassName} onClick={handleFavClick}>
-      <i className={textClassName}></i>
-    </button>
+    <>
+      <button className={buttonClassName} onClick={handleFavClick}>
+        <i className={textClassName}></i>
+      </button>
+    </>
   );
 }
