@@ -1,0 +1,79 @@
+import _ky from "ky";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { DonutCommentDtoList, DonutDto, DonutDtoList } from "@/types";
+
+const ky = _ky.extend({
+  retry: 0,
+  timeout: 5000,
+});
+
+export const fetchDonutDetailOpts = (donutId: string) => {
+  return queryOptions({
+    queryKey: ["donuts", "details", donutId],
+    async queryFn() {
+      const result = await ky
+        .get("http://localhost:7200/api/donuts/" + donutId + "?slow=1200")
+        .json();
+      // zod???
+      return DonutDto.parse(result);
+    },
+  });
+  // todo:
+  //  queryOptions
+  //    Daten von http://localhost:7200/api/donuts/${donutId} laden
+  //  Rückgabe-Typ 'any' entfernen
+};
+
+export const fetchCommentsOpts = (donutId: string) =>
+  queryOptions({
+    queryKey: ["donuts", "detail", donutId, "comments"],
+    async queryFn() {
+      const r = await ky
+        .get(`http://localhost:7200/api/donuts/${donutId}/comments?slow=1200`)
+        .json();
+      return DonutCommentDtoList.parse(r);
+    },
+  });
+
+export const fetchDonutListOpts = () =>
+  queryOptions({
+    queryKey: ["donuts", "list"],
+    async queryFn() {
+      const r = await ky.get("http://localhost:7200/api/donuts").json();
+      return DonutDtoList.parse(r);
+    },
+  });
+
+export const useLikeMutation = (donutId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    async mutationFn() {
+      const response = await ky
+        .put(`http://localhost:7200/api/donuts/${donutId}/likes`)
+        .json();
+      return DonutDto.parse(response);
+    },
+    onSuccess(newValue) {
+      // queryClient.invalidateQueries({
+      //   queryKey: fetchDonutDetailOpts(donutId).queryKey,
+      // });
+      queryClient.setQueryData(
+        fetchDonutDetailOpts(donutId).queryKey,
+        (currentValue) => {
+          return newValue;
+        },
+      );
+
+      // Wann wird dieser Query ausgeführt?
+      // wenn wir auf der Detail-Seite stehen und "Liken"
+      queryClient.invalidateQueries({
+        queryKey: fetchDonutListOpts().queryKey,
+      });
+    },
+  });
+};
