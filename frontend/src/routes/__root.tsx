@@ -17,6 +17,7 @@ interface MyRouterContext {
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+  notFoundComponent: () => <div>Schade, nicht gefunden!</div>,
   head: () => ({
     meta: [
       {
@@ -27,7 +28,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "🍩 Donuitgram",
       },
     ],
     links: [

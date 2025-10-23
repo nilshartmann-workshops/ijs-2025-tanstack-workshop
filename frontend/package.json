@@ -6,7 +6,7 @@
     "backend": "cd ../backend && npm run start",
     "dev": "vite dev --port 3000",
     "build": "vite build",
-    "serve": "vite preview",
+    "start": "node .output/server/index.mjs",
     "test": "vitest run",
     "lint": "eslint",
     "format": "prettier",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@tanstack/eslint-config": "^0.3.0",
+    "@tanstack/nitro-v2-vite-plugin": "^1.133.19",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^22.10.2",
