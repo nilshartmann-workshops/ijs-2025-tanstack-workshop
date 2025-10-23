@@ -4,6 +4,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import { createServerFn } from "@tanstack/react-start";
 import { DonutCommentDtoList, DonutDto, DonutDtoList } from "@/types";
 
 const ky = _ky.extend({
@@ -11,15 +12,27 @@ const ky = _ky.extend({
   timeout: 5000,
 });
 
+const fetchSingleDonut = createServerFn({ method: "GET" })
+  .inputValidator((x) => {
+    if (typeof x !== "string") {
+      throw new Error("Please specify donutId");
+    }
+    return x;
+  })
+  .handler(async ({ data: donutId }) => {
+    console.log("SERVER !");
+    const result = await ky
+      .get("http://localhost:7200/api/donuts/" + donutId + "?slow=2000")
+      .json();
+    // zod???
+    return DonutDto.parse(result);
+  });
+
 export const fetchDonutDetailOpts = (donutId: string) => {
   return queryOptions({
     queryKey: ["donuts", "details", donutId],
     async queryFn() {
-      const result = await ky
-        .get("http://localhost:7200/api/donuts/" + donutId + "?slow=1200")
-        .json();
-      // zod???
-      return DonutDto.parse(result);
+      return fetchSingleDonut({ data: donutId });
     },
   });
   // todo:

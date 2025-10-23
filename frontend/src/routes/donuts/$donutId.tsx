@@ -11,7 +11,7 @@ export const Route = createFileRoute("/donuts/$donutId")({
   pendingComponent: LoadingIndicator,
   onError: (err) => {
     // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#handling-errors-with-routeoptionsonerror
-    console.log("ERROR in doniutId loader: ", err);
+    console.log("ERROR in $donutId loader: ", err);
   },
   loader({ context, params }) {
     // Zeigen:
@@ -20,8 +20,11 @@ export const Route = createFileRoute("/donuts/$donutId")({
     //     ausgeführt, auch wenn Daten aus dem Cache
     //     kommen
 
-    context.queryClient.ensureQueryData(fetchDonutDetailOpts(params.donutId));
     context.queryClient.ensureQueryData(fetchCommentsOpts(params.donutId));
+    // make sure Donut Detail is SSR'ed on SERVER
+    return context.queryClient.ensureQueryData(
+      fetchDonutDetailOpts(params.donutId),
+    );
   },
 });
 

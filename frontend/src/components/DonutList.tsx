@@ -41,7 +41,6 @@ function DonutItem({ donut }: DonutDetailProps) {
         {/* todo: link! */}
         <Link
           to={"/donuts/$donutId"}
-          preload={"intent"}
           params={{
             donutId: donut.id,
           }}
