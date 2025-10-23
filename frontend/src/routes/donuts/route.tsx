@@ -1,6 +1,5 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import { z } from "zod";
+import { z } from "zod/v4";
 import NavBar from "@/components/NavBar.tsx";
 
 const GlobalSearchParams = z.object({
@@ -9,7 +8,7 @@ const GlobalSearchParams = z.object({
 
 export const Route = createFileRoute("/donuts")({
   component: RouteComponent,
-  validateSearch: zodValidator(GlobalSearchParams),
+  validateSearch: GlobalSearchParams,
 });
 
 function RouteComponent() {
