@@ -1,0 +1,1 @@
+{"root":["./vite.config.ts","./src/routetree.gen.ts","./src/data/demo.punk-songs.ts","./src/router.tsx","./src/integrations/tanstack-query/devtools.tsx","./src/integrations/tanstack-query/root-provider.tsx","./src/routes/__root.tsx","./src/routes/index.tsx"],"version":"5.9.3"}

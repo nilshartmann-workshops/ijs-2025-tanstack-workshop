@@ -1,3 +1,8 @@
-package-lock.json
 pnpm-lock.yaml
-yarn.lock
+_generated*
+public/**/*.css
+
+public/mockServiceWorker.js
+
+src/routeTree.gen.ts
+temp-google-fonts.css

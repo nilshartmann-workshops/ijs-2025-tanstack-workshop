@@ -1,10 +1,9 @@
 //  @ts-check
 
-/** @type {import('prettier').Config} */
+/** @type {import("prettier").Options} */
 const config = {
-  semi: false,
-  singleQuote: true,
-  trailingComma: "all",
+  plugins: ["prettier-plugin-tailwindcss"],
+  tailwindFunctions: ["clsx", "twMerge"],
 };
 
 export default config;
