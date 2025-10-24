@@ -13,12 +13,9 @@ export const Route = createFileRoute("/donuts")({
 
 function RouteComponent() {
   return (
-    <>
-      <header>
-        <NavBar />
-      </header>
-
+    <main>
+      <NavBar />
       <Outlet />
-    </>
+    </main>
   );
 }

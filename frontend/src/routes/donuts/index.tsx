@@ -6,18 +6,14 @@ import DonutList from "@/components/DonutList.tsx";
 import FavList from "@/components/FavList.tsx";
 
 export const Route = createFileRoute("/donuts/")({
-  component: RouteComponent,
+  component: DonutListRouteComponent,
 });
 
-function RouteComponent() {
+function DonutListRouteComponent() {
   const { favIds } = Route.useSearch();
 
   return (
-    <div
-      className={
-        "container mx-auto my-8 flex items-start justify-center space-x-8"
-      }
-    >
+    <div className={"DonutListRouteComponent"}>
       <DonutListColumn />
 
       <FavList favIds={favIds} />

@@ -22,7 +22,7 @@ const fetchSingleDonut = createServerFn({ method: "GET" })
   .handler(async ({ data: donutId }) => {
     console.log("SERVER !");
     const result = await ky
-      .get("http://localhost:7200/api/donuts/" + donutId + "?slow=2000")
+      .get("http://localhost:7200/api/donuts/" + donutId + "?slow=100")
       .json();
     // zod???
     return DonutDto.parse(result);
@@ -46,7 +46,7 @@ export const fetchCommentsOpts = (donutId: string) =>
     queryKey: ["donuts", "detail", donutId, "comments"],
     async queryFn() {
       const r = await ky
-        .get(`http://localhost:7200/api/donuts/${donutId}/comments?slow=1200`)
+        .get(`http://localhost:7200/api/donuts/${donutId}/comments?slow=2400`)
         .json();
       return DonutCommentDtoList.parse(r);
     },

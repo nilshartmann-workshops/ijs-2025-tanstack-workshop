@@ -7,11 +7,7 @@ type DonutDetailProps = {
 };
 export default function DonutDetail({ donut }: DonutDetailProps) {
   return (
-    <div
-      className={
-        "container mx-auto my-8 flex items-start justify-center space-x-8"
-      }
-    >
+    <div className={"DonutDetail"}>
       <Donut donut={donut} />
 
       <CommentList donutId={donut.id} />

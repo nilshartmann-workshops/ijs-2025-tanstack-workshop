@@ -33,5 +33,9 @@ function CommentListView({ cardId }: CommentListViewProps) {
 }
 
 function CommentLoadingIndicator() {
-  return <LoadingIndicator>Comments loading...</LoadingIndicator>;
+  return (
+    <LoadingIndicator>
+      <span className={"font-caveat"}>Comments loading...</span>
+    </LoadingIndicator>
+  );
 }

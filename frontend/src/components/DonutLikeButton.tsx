@@ -10,8 +10,6 @@ export default function DonutLikeButton({
   donutId,
   currentLikes,
 }: DonutLikeButtonProps) {
-  // todo: useLikeMutation
-
   const mutation = useLikeMutation(donutId);
 
   return (
