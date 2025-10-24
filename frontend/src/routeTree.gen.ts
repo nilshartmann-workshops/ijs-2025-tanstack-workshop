@@ -13,6 +13,7 @@ import { Route as DonutsRouteRouteImport } from './routes/donuts/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DonutsIndexRouteImport } from './routes/donuts/index'
 import { Route as DonutsDonutIdRouteImport } from './routes/donuts/$donutId'
+import { Route as DonutsDonutIdCommentsRouteImport } from './routes/donuts/$donutId.comments'
 
 const DonutsRouteRoute = DonutsRouteRouteImport.update({
   id: '/donuts',
@@ -34,31 +35,50 @@ const DonutsDonutIdRoute = DonutsDonutIdRouteImport.update({
   path: '/$donutId',
   getParentRoute: () => DonutsRouteRoute,
 } as any)
+const DonutsDonutIdCommentsRoute = DonutsDonutIdCommentsRouteImport.update({
+  id: '/comments',
+  path: '/comments',
+  getParentRoute: () => DonutsDonutIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/donuts': typeof DonutsRouteRouteWithChildren
-  '/donuts/$donutId': typeof DonutsDonutIdRoute
+  '/donuts/$donutId': typeof DonutsDonutIdRouteWithChildren
   '/donuts/': typeof DonutsIndexRoute
+  '/donuts/$donutId/comments': typeof DonutsDonutIdCommentsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/donuts/$donutId': typeof DonutsDonutIdRoute
+  '/donuts/$donutId': typeof DonutsDonutIdRouteWithChildren
   '/donuts': typeof DonutsIndexRoute
+  '/donuts/$donutId/comments': typeof DonutsDonutIdCommentsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/donuts': typeof DonutsRouteRouteWithChildren
-  '/donuts/$donutId': typeof DonutsDonutIdRoute
+  '/donuts/$donutId': typeof DonutsDonutIdRouteWithChildren
   '/donuts/': typeof DonutsIndexRoute
+  '/donuts/$donutId/comments': typeof DonutsDonutIdCommentsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/donuts' | '/donuts/$donutId' | '/donuts/'
+  fullPaths:
+    | '/'
+    | '/donuts'
+    | '/donuts/$donutId'
+    | '/donuts/'
+    | '/donuts/$donutId/comments'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/donuts/$donutId' | '/donuts'
-  id: '__root__' | '/' | '/donuts' | '/donuts/$donutId' | '/donuts/'
+  to: '/' | '/donuts/$donutId' | '/donuts' | '/donuts/$donutId/comments'
+  id:
+    | '__root__'
+    | '/'
+    | '/donuts'
+    | '/donuts/$donutId'
+    | '/donuts/'
+    | '/donuts/$donutId/comments'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -96,16 +116,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DonutsDonutIdRouteImport
       parentRoute: typeof DonutsRouteRoute
     }
+    '/donuts/$donutId/comments': {
+      id: '/donuts/$donutId/comments'
+      path: '/comments'
+      fullPath: '/donuts/$donutId/comments'
+      preLoaderRoute: typeof DonutsDonutIdCommentsRouteImport
+      parentRoute: typeof DonutsDonutIdRoute
+    }
   }
 }
 
+interface DonutsDonutIdRouteChildren {
+  DonutsDonutIdCommentsRoute: typeof DonutsDonutIdCommentsRoute
+}
+
+const DonutsDonutIdRouteChildren: DonutsDonutIdRouteChildren = {
+  DonutsDonutIdCommentsRoute: DonutsDonutIdCommentsRoute,
+}
+
+const DonutsDonutIdRouteWithChildren = DonutsDonutIdRoute._addFileChildren(
+  DonutsDonutIdRouteChildren,
+)
+
 interface DonutsRouteRouteChildren {
-  DonutsDonutIdRoute: typeof DonutsDonutIdRoute
+  DonutsDonutIdRoute: typeof DonutsDonutIdRouteWithChildren
   DonutsIndexRoute: typeof DonutsIndexRoute
 }
 
 const DonutsRouteRouteChildren: DonutsRouteRouteChildren = {
-  DonutsDonutIdRoute: DonutsDonutIdRoute,
+  DonutsDonutIdRoute: DonutsDonutIdRouteWithChildren,
   DonutsIndexRoute: DonutsIndexRoute,
 }
 

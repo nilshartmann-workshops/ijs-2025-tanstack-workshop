@@ -14,3 +14,9 @@ export function toggleId(currentList: string[] | undefined, id: string) {
 
   return newList;
 }
+
+export function waitFor<R>(result: R, amount: number): Promise<R> {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(result), amount);
+  });
+}

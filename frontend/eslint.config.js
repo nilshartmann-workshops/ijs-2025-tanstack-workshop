@@ -20,6 +20,7 @@ export default [
       "@typescript-eslint/consistent-type-imports": "off",
       "@typescript-eslint/no-unnecessary-condition": "off",
       "@typescript-eslint/method-signature-style": "off",
+      "@typescript-eslint/naming-convention": "off",
       "@stylistic/js/spaced-comment": "off",
     },
   },

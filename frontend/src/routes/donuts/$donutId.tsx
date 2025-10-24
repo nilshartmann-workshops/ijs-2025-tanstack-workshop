@@ -5,6 +5,7 @@ import { DonutDto } from "@/types.ts";
 import DonutDetail from "@/components/DonutDetail.tsx";
 import { fetchCommentsOpts, fetchDonutDetailOpts } from "@/queries.ts";
 import LoadingIndicator from "@/components/LoadingIndicator.tsx";
+import { waitFor } from "@/components/utils.ts";
 
 export const Route = createFileRoute("/donuts/$donutId")({
   component: RouteComponent,
@@ -17,7 +18,13 @@ export const Route = createFileRoute("/donuts/$donutId")({
     // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#handling-errors-with-routeoptionsonerror
     console.log("ERROR in $donutId loader: ", err);
   },
+  async beforeLoad(x) {
+    console.log("BEFORE LOAD DONUTID", x.params.donutId);
+    await waitFor("before load", 2000);
+    console.log("DonutId before load ready");
+  },
   async loader({ context, params }) {
+    console.log("LOAD DONUTID", params.donutId);
     // Zeigen:
     //  -> Cache: Hin- und Her navigieren ist jetzt flink
     //  -> Queries werden beim Routen-wechsel IMMER
@@ -26,9 +33,11 @@ export const Route = createFileRoute("/donuts/$donutId")({
 
     // context.queryClient.ensureQueryData(fetchCommentsOpts(params.donutId));
     // make sure Donut Detail is SSR'ed on SERVER
-    return context.queryClient.ensureQueryData(
+    const x = await context.queryClient.ensureQueryData(
       fetchDonutDetailOpts(params.donutId),
     );
+    console.log("DONUT ID LOAD DONE");
+    return x;
   },
   head(ctx) {
     return {
