@@ -39,8 +39,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { href: "/fontawesome/css/solid.css", rel: "stylesheet" },
     ],
   }),
-
   shellComponent: RootDocument,
+  notFoundComponent: () => {
+    return <div>Page not found 🥺</div>;
+  },
+
   search: {
     middlewares: [retainSearchParams(true)],
   },

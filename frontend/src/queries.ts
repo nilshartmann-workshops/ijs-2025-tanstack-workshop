@@ -1,10 +1,11 @@
-import _ky from "ky";
+import _ky, { HTTPError } from "ky";
 import {
   queryOptions,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
+import { notFound } from "@tanstack/react-router";
 import { DonutCommentDtoList, DonutDto, DonutDtoList } from "@/types";
 
 const ky = _ky.extend({
@@ -20,11 +21,20 @@ const fetchSingleDonut = createServerFn({ method: "GET" })
     return x;
   })
   .handler(async ({ data: donutId }) => {
-    console.log("SERVER !");
-    const result = await ky
-      .get("http://localhost:7200/api/donuts/" + donutId + "?slow=100")
-      .json();
-    // zod???
+    let result;
+
+    try {
+      result = await ky
+        .get("http://localhost:7200/api/donuts/" + donutId + "?slow=100")
+        .json();
+    } catch (err) {
+      if (err instanceof HTTPError && err.response?.status === 404) {
+        throw notFound({
+          data: "XXXXX",
+        });
+      }
+      throw err;
+    }
     return DonutDto.parse(result);
   });
 
