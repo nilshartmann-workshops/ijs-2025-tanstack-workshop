@@ -127,7 +127,22 @@ const allComments = [
 
 module.exports = function setupDonutsApi(app) {
   app.get("/api/donuts", (req, res) => {
-    return res.status(200).json(allDonuts);
+
+    let result = [...allDonuts];
+
+    const orderBy = req.query.orderBy;
+
+    if (orderBy === "likes") {
+      result.sort((a, b) => b.likes - a.likes);
+    } else if (orderBy === "name") {
+      result.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
+    } else if (!!orderBy) {
+      return res.status(400).json({"error": `Invalid orderBy '${orderBy}'`})
+    }
+
+    return res.status(200).json(result);
   });
 
   app.get("/api/donuts/:donutId", (req, res) => {

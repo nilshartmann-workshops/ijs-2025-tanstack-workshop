@@ -6,8 +6,7 @@ const { createComments } = require("./data");
 
 const createCards = require("./data").createCards;
 
-let cards = createCards();
-let comments = createComments();
+
 
 const app = express();
 
@@ -171,7 +170,12 @@ const port = process.env.SERVER_PORT || 7200;
 
 app.listen(port, () => {
   console.log(`
-    📞    Card API Server listening on port ${port}
-    👉    Try http://localhost:${port}/api/cards
+    📞    Donut API Server listening on port ${port}
+    👉    Try GET http://localhost:${port}/api/donuts
+    👉    Try GET http://localhost:${port}/api/donuts?orderBy=likes
+    👉    Try GET http://localhost:${port}/api/donuts?orderBy=name
+    👉    Try GET http://localhost:${port}/api/donuts/1
+    👉    Try GET http://localhost:${port}/api/donuts/1/comments
+    👉    Try PUT http://localhost:${port}/api/donuts/1/likes
 `);
 });

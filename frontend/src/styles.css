@@ -165,6 +165,18 @@
     @apply hover:text-sprinkleOrange text-brown no-underline underline-offset-8 hover:underline;
   }
 
+  .OrderButtons {
+    @apply flex items-center gap-x-4 pb-4;
+  }
+
+  .OrderButtons a {
+    @apply text-brown border-brown font-fredoka rounded-2xl border p-2 font-medium tracking-wider no-underline underline-offset-8 hover:text-pink-600 hover:underline;
+  }
+
+  .OrderButtons a.active {
+    @apply bg-pink-600/20;
+  }
+
   .FavList {
     @apply flex w-1/2 flex-col gap-y-6;
   }

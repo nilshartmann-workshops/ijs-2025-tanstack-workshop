@@ -62,11 +62,15 @@ export const fetchCommentsOpts = (donutId: string) =>
     },
   });
 
-export const fetchDonutListOpts = () =>
+export const fetchDonutListOpts = (orderBy: "" | "name" | "likes" = "") =>
   queryOptions({
-    queryKey: ["donuts", "list"],
+    queryKey: ["donuts", "list", { orderBy }],
     async queryFn() {
-      const r = await ky.get("http://localhost:7200/api/donuts").json();
+      const r = await ky
+        .get(
+          "http://localhost:7200/api/donuts?orderBy=" + orderBy + "&slow=2000",
+        )
+        .json();
       return DonutDtoList.parse(r);
     },
   });
