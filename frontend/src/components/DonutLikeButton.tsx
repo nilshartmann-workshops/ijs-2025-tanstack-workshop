@@ -1,7 +1,5 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
 import { useLikeMutation } from "@/queries.ts";
-import LikeButton from "@/components/LikeButton.tsx";
 
 type DonutLikeButtonProps = {
   donutId: string;
