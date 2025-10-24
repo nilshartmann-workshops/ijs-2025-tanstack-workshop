@@ -1,6 +1,4 @@
-import { useSearch } from "@tanstack/react-router";
 import { DonutDto } from "@/types.ts";
-import LikeButton from "@/components/LikeButton.tsx";
 import FavButton from "@/components/FavButton.tsx";
 import DonutLikeButton from "@/components/DonutLikeButton.tsx";
 

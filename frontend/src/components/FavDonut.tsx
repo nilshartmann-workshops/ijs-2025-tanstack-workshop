@@ -1,7 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { fetchDonutDetailOpts } from "@/queries.ts";
-import LikeButton from "@/components/LikeButton.tsx";
-import FavButton from "@/components/FavButton.tsx";
 import DonutLikeButton from "@/components/DonutLikeButton.tsx";
 
 type FavDonutProps = {

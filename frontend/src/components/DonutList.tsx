@@ -1,8 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { DonutDto, DonutDtoList } from "@/types.ts";
-import LikeButton from "@/components/LikeButton.tsx";
-import FavButton from "@/components/FavButton.tsx";
-import DonutLikeButton from "@/components/DonutLikeButton.tsx";
 import DonutCard from "@/components/DonutCard.tsx";
 
 type DonutListProps = {

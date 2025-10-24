@@ -68,7 +68,7 @@ export const fetchDonutListOpts = (orderBy: "" | "name" | "likes" = "") =>
     async queryFn() {
       const r = await ky
         .get(
-          "http://localhost:7200/api/donuts?orderBy=" + orderBy + "&slow=2000",
+          "http://localhost:7200/api/donuts?orderBy=" + orderBy + "&slow=100",
         )
         .json();
       return DonutDtoList.parse(r);
@@ -81,7 +81,7 @@ export const useLikeMutation = (donutId: string) => {
   return useMutation({
     async mutationFn() {
       const response = await ky
-        .put(`http://localhost:7200/api/donuts/${donutId}/likes`)
+        .put(`http://localhost:7200/api/donuts/${donutId}/likes?slow=4`)
         .json();
       return DonutDto.parse(response);
     },
@@ -99,7 +99,8 @@ export const useLikeMutation = (donutId: string) => {
       // Wann wird dieser Query ausgeführt?
       // wenn wir auf der Detail-Seite stehen und "Liken"
       queryClient.invalidateQueries({
-        queryKey: fetchDonutListOpts().queryKey,
+        queryKey: fetchDonutListOpts().queryKey.slice(0, 2),
+        exact: false,
       });
     },
   });
