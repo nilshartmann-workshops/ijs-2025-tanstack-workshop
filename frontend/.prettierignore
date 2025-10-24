@@ -8,3 +8,6 @@ src/routeTree.gen.ts
 temp-google-fonts.css
 
 *.md
+
+.nitro/
+.output/

@@ -33,6 +33,8 @@ export default [
       "vite.config.js",
       "public/hover-link.js",
       "public/mockServiceWorker.js",
+      ".nitro",
+      ".output",
     ],
   },
 ];
