@@ -26,6 +26,15 @@ export const Route = createFileRoute("/donuts/$donutId")({
       fetchDonutDetailOpts(params.donutId),
     );
   },
+  head(ctx) {
+    return {
+      meta: [
+        {
+          title: `${ctx.loaderData!.name} - Donutigram`,
+        },
+      ],
+    };
+  },
 });
 
 function RouteComponent() {
