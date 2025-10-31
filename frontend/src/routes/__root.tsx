@@ -7,6 +7,7 @@ import {
 import appCss from "../styles.css?url";
 
 import type { QueryClient } from "@tanstack/react-query";
+import DevtoolsPanel from "@/components/DevtoolsPanel.tsx";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -50,6 +51,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body suppressHydrationWarning>
         {children}
         <Scripts />
+        <DevtoolsPanel />
       </body>
     </html>
   );

@@ -15,10 +15,13 @@ const ky = _ky.extend({
 
 export const fetchDonutListOpts = (orderBy: "name" | "likes" | "" = "") =>
   queryOptions({
-    queryKey: ["donuts", "list", { orderBy }],
+    queryKey: ["donuts", "list", orderBy],
+    staleTime: 10_000,
     async queryFn() {
       const response = await ky
-        .get("http://localhost:7200/api/donuts?orderBy=" + orderBy)
+        .get(
+          "http://localhost:7200/api/donuts?orderBy=" + orderBy + "&slow=2000",
+        )
         .json();
 
       const data = DonutDtoList.parse(response);
@@ -31,7 +34,7 @@ export const fetchDonutDetails = (donutId: string) =>
     queryKey: ["donuts", "details", donutId],
     async queryFn() {
       const response = await ky
-        .get("http://localhost:7200/api/donuts/" + donutId)
+        .get("http://localhost:7200/api/donuts/" + donutId + "?slow=10")
         .json();
       const data = DonutDto.parse(response);
       return data;
