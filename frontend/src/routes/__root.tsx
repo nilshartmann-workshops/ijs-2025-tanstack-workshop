@@ -40,6 +40,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   search: {
     middlewares: [retainSearchParams(true)],
   },
+  notFoundComponent() {
+    return <h1>Something is not found!</h1>;
+  },
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {

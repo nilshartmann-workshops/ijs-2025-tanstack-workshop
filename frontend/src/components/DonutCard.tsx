@@ -15,6 +15,7 @@ export default function DonutCard({ donut }: DonutCardProps) {
         {/* todo: link! */}
         <Link
           to={"/donuts/$donutId"}
+          preload={"intent"}
           params={{
             donutId: donut.id,
           }}
