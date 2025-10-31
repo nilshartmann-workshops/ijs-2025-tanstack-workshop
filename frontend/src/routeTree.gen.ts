@@ -9,27 +9,189 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DonutsRouteRouteImport } from './routes/donuts/route'
+import { Route as InfosRouteRouteImport } from './routes/_infos/route'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as DonutsIndexRouteImport } from './routes/donuts/index'
+import { Route as DonutsDonutIdRouteImport } from './routes/donuts/$donutId'
+import { Route as InfosPrivacyRouteImport } from './routes/_infos/privacy'
+import { Route as InfosAboutRouteImport } from './routes/_infos/about'
 
-export interface FileRoutesByFullPath {}
-export interface FileRoutesByTo {}
+const DonutsRouteRoute = DonutsRouteRouteImport.update({
+  id: '/donuts',
+  path: '/donuts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InfosRouteRoute = InfosRouteRouteImport.update({
+  id: '/_infos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonutsIndexRoute = DonutsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DonutsRouteRoute,
+} as any)
+const DonutsDonutIdRoute = DonutsDonutIdRouteImport.update({
+  id: '/$donutId',
+  path: '/$donutId',
+  getParentRoute: () => DonutsRouteRoute,
+} as any)
+const InfosPrivacyRoute = InfosPrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => InfosRouteRoute,
+} as any)
+const InfosAboutRoute = InfosAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => InfosRouteRoute,
+} as any)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/donuts': typeof DonutsRouteRouteWithChildren
+  '/about': typeof InfosAboutRoute
+  '/privacy': typeof InfosPrivacyRoute
+  '/donuts/$donutId': typeof DonutsDonutIdRoute
+  '/donuts/': typeof DonutsIndexRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/about': typeof InfosAboutRoute
+  '/privacy': typeof InfosPrivacyRoute
+  '/donuts/$donutId': typeof DonutsDonutIdRoute
+  '/donuts': typeof DonutsIndexRoute
+}
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_infos': typeof InfosRouteRouteWithChildren
+  '/donuts': typeof DonutsRouteRouteWithChildren
+  '/_infos/about': typeof InfosAboutRoute
+  '/_infos/privacy': typeof InfosPrivacyRoute
+  '/donuts/$donutId': typeof DonutsDonutIdRoute
+  '/donuts/': typeof DonutsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: never
+  fullPaths:
+    | '/'
+    | '/donuts'
+    | '/about'
+    | '/privacy'
+    | '/donuts/$donutId'
+    | '/donuts/'
   fileRoutesByTo: FileRoutesByTo
-  to: never
-  id: '__root__'
+  to: '/' | '/about' | '/privacy' | '/donuts/$donutId' | '/donuts'
+  id:
+    | '__root__'
+    | '/'
+    | '/_infos'
+    | '/donuts'
+    | '/_infos/about'
+    | '/_infos/privacy'
+    | '/donuts/$donutId'
+    | '/donuts/'
   fileRoutesById: FileRoutesById
 }
-export interface RootRouteChildren {}
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {}
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  InfosRouteRoute: typeof InfosRouteRouteWithChildren
+  DonutsRouteRoute: typeof DonutsRouteRouteWithChildren
 }
 
-const rootRouteChildren: RootRouteChildren = {}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/donuts': {
+      id: '/donuts'
+      path: '/donuts'
+      fullPath: '/donuts'
+      preLoaderRoute: typeof DonutsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_infos': {
+      id: '/_infos'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof InfosRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/donuts/': {
+      id: '/donuts/'
+      path: '/'
+      fullPath: '/donuts/'
+      preLoaderRoute: typeof DonutsIndexRouteImport
+      parentRoute: typeof DonutsRouteRoute
+    }
+    '/donuts/$donutId': {
+      id: '/donuts/$donutId'
+      path: '/$donutId'
+      fullPath: '/donuts/$donutId'
+      preLoaderRoute: typeof DonutsDonutIdRouteImport
+      parentRoute: typeof DonutsRouteRoute
+    }
+    '/_infos/privacy': {
+      id: '/_infos/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof InfosPrivacyRouteImport
+      parentRoute: typeof InfosRouteRoute
+    }
+    '/_infos/about': {
+      id: '/_infos/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof InfosAboutRouteImport
+      parentRoute: typeof InfosRouteRoute
+    }
+  }
+}
+
+interface InfosRouteRouteChildren {
+  InfosAboutRoute: typeof InfosAboutRoute
+  InfosPrivacyRoute: typeof InfosPrivacyRoute
+}
+
+const InfosRouteRouteChildren: InfosRouteRouteChildren = {
+  InfosAboutRoute: InfosAboutRoute,
+  InfosPrivacyRoute: InfosPrivacyRoute,
+}
+
+const InfosRouteRouteWithChildren = InfosRouteRoute._addFileChildren(
+  InfosRouteRouteChildren,
+)
+
+interface DonutsRouteRouteChildren {
+  DonutsDonutIdRoute: typeof DonutsDonutIdRoute
+  DonutsIndexRoute: typeof DonutsIndexRoute
+}
+
+const DonutsRouteRouteChildren: DonutsRouteRouteChildren = {
+  DonutsDonutIdRoute: DonutsDonutIdRoute,
+  DonutsIndexRoute: DonutsIndexRoute,
+}
+
+const DonutsRouteRouteWithChildren = DonutsRouteRoute._addFileChildren(
+  DonutsRouteRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  InfosRouteRoute: InfosRouteRouteWithChildren,
+  DonutsRouteRoute: DonutsRouteRouteWithChildren,
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
