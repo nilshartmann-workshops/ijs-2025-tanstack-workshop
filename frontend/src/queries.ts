@@ -81,3 +81,34 @@ export const fetchCommentsOpts = (donutId: string) =>
       return DonutCommentDtoList.parse(r);
     },
   });
+
+export const useSaveLikeMutation = (donutId: string) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    async mutationFn() {
+      const response = await ky
+        .put(`http://localhost:7200/api/donuts/${donutId}/likes`)
+        .json();
+      return DonutDto.parse(response);
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({
+        queryKey: ["donuts", "list"],
+      });
+
+      queryClient.setQueryData(
+        fetchDonutDetails(donutId).queryKey,
+        (currentValue) => {
+          return data;
+        },
+      );
+
+      // queryClient.invalidateQueries({
+      //   queryKey: ["donuts", "details", donutId],
+      // });
+    },
+  });
+
+  return mutation;
+};
