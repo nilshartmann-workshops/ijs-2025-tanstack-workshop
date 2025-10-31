@@ -1,20 +1,14 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { fetchDonutListOpts } from "@/queries.ts";
+import DonutList from "@/components/DonutList.tsx";
 
 export const Route = createFileRoute("/donuts/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return (
-    <div>
-      <Link
-        to={"/donuts/$donutId"}
-        params={{
-          donutId: "1",
-        }}
-      >
-        Donut 1
-      </Link>
-    </div>
-  );
+  const { data: donutList } = useSuspenseQuery(fetchDonutListOpts());
+
+  return <DonutList donuts={donutList} />;
 }
