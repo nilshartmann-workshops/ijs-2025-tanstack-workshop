@@ -13,11 +13,13 @@ const ky = _ky.extend({
   timeout: 5000,
 });
 
-export const fetchDonutListOpts = () =>
+export const fetchDonutListOpts = (orderBy: "name" | "likes" | "" = "") =>
   queryOptions({
-    queryKey: ["donuts", "list"],
+    queryKey: ["donuts", "list", { orderBy }],
     async queryFn() {
-      const response = await ky.get("http://localhost:7200/api/donuts").json();
+      const response = await ky
+        .get("http://localhost:7200/api/donuts?orderBy=" + orderBy)
+        .json();
 
       const data = DonutDtoList.parse(response);
       return data;

@@ -2,6 +2,7 @@ import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
+  retainSearchParams,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
 
@@ -35,6 +36,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
   }),
   shellComponent: RootDocument,
+  search: {
+    middlewares: [retainSearchParams(true)],
+  },
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
